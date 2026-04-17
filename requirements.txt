@@ -1,0 +1,26 @@
+# ─── Base de Datos ───────────────────────
+psycopg2-binary
+sqlalchemy
+
+# ─── Validación de Datos ────────────────
+pydantic
+pydantic-settings
+
+# ─── IA Clásica ──────────────────────────
+scikit-learn
+numpy
+pandas
+
+# ─── LLM Local (LangChain + Ollama) ─────
+langchain
+langchain-community
+langchain-core
+
+# ─── Frontend ────────────────────────────
+streamlit
+plotly
+streamlit_autorefresh
+
+# ─── Utilidades ──────────────────────────
+python-dotenv
+requests

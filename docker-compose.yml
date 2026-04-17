@@ -1,0 +1,109 @@
+version: "3.9"
+
+services:
+  
+  # PostgreSQL 16 – Bioreactor Data Warehouse
+  postgres:
+    image: postgres:16-alpine
+    container_name: biosynthetix_db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: biosynthetix
+      POSTGRES_PASSWORD: biosynth_secret
+      POSTGRES_DB: bioreactor_db
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./DB/init_db.sql:/docker-entrypoint-initdb.d/init_db.sql
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U biosynthetix -d bioreactor_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - bionet
+
+  
+  # Ollama – Local LLM Engine (Full Data Sovereignty)
+  ollama:
+    image: ollama/ollama:latest
+    container_name: biosynthetix_ollama
+    restart: unless-stopped
+    volumes:
+      - ollama_models:/root/.ollama
+    ports:
+      - "11434:11434"
+    networks:
+      - bionet
+
+  
+  # Ollama Model Puller – Downloads model on startup
+  ollama-init:
+    image: curlimages/curl:latest
+    container_name: biosynthetix_ollama_init
+    depends_on:
+      - ollama
+    networks:
+      - bionet
+    entrypoint: >
+      sh -c "
+        echo 'Waiting for Ollama response...';
+        until curl -s http://ollama:11434/api/tags > /dev/null; do sleep 2; done;
+        echo 'Downloading mistral model...';
+        curl -s -X POST http://ollama:11434/api/pull -d '{\"name\":\"mistral\"}';
+        echo 'Model ready.';
+      "
+    restart: "no"
+
+  
+  # Python App – Streamlit + Business Logic
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: biosynthetix_app
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+      ollama:
+        condition: service_started
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USER: biosynthetix
+      DB_PASSWORD: biosynth_secret
+      DB_NAME: bioreactor_db
+      OLLAMA_BASE_URL: http://ollama:11434
+      OLLAMA_MODEL: mistral
+      PYTHONPATH: /app
+    ports:
+      - "8501:8501"
+    volumes:
+      - ./:/app
+    networks:
+      - bionet
+    command: >
+      sh -c "
+        echo 'Running data pipeline...';
+        python pipeline/ingest_data.py &&
+        python pipeline/detect_anomalies.py &&
+        echo 'Launching Streamlit...';
+        streamlit run dashboard/app.py --server.address 0.0.0.0 --server.port 8501
+      "
+
+
+# Persistent Volumes
+volumes:
+  postgres_data:
+    driver: local
+  ollama_models:
+    driver: local
+
+
+# Internal Network – Services communicate 
+# with each other, no external exposure
+networks:
+  bionet:
+    driver: bridge
