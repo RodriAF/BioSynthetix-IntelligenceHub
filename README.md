@@ -4,7 +4,7 @@
 
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16--alpine-4169E1?logo=postgresql&logoColor=white) ![Python](https://img.shields.io/badge/Python-3.11-3776AB?logo=python&logoColor=white) ![Docker](https://img.shields.io/badge/Docker-24%2B-2496ED?logo=docker&logoColor=white) ![Ollama](https://img.shields.io/badge/Ollama-Mistral-black?logo=ollama&logoColor=white)
 
-![Main Dashboard](examples\Dashboard_Example.png)
+![Main Dashboard](examples/Dashboard_Example.png)
 *Figure 1: Real-time Bioreactor Control Surface with industrial dark-mode UI.*
 
 
@@ -127,10 +127,10 @@ Once the dashboard is active, you can ask:
 | "What was the maximum temperature today?" | `SELECT MAX(temperature_c) FROM bioreactor_readings WHERE timestamp >= NOW() - INTERVAL '24 hours'` |
 | "How is the biomass evolving?" | `SELECT DATE_TRUNC('hour', timestamp), AVG(biomass_g_l) FROM bioreactor_readings GROUP BY 1 ORDER BY 1 DESC` |
 
-![AI Processing](examples\Thinking_Example.png)
+![AI Processing](examples/Thinking_Example.png)
 *Figure 2: Natural Language Processing Layer - Local LLM analyzing database telemetry.*
 
-![Chat Interaction](examples\Answers_Example.png)
+![Chat Interaction](examples/Answers_Example.png)
 *Figure 3: AI Assistant Interaction - Context-aware responses based on real-time data.*
 
 ---
