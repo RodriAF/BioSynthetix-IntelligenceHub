@@ -2,7 +2,7 @@
 # BioSynthetix Intelligence Hub
 ### Local-First AI · Total Data Sovereignty
 
-![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16--alpine-4169E1?logo=postgresql&logoColor=white) ![Python](https://img.shields.io/badge/Python-3.11-3776AB?logo=python&logoColor=white) ![Docker](https://img.shields.io/badge/Docker-24%2B-2496ED?logo=docker&logoColor=white) ![Ollama](https://img.shields.io/badge/Ollama-Mistral-black?logo=ollama&logoColor=white)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16--alpine-4169E1?logo=postgresql&logoColor=white) ![Python](https://img.shields.io/badge/Python-3.11-3776AB?logo=python&logoColor=white) ![Docker](https://img.shields.io/badge/Docker-24%2B-2496ED?logo=docker&logoColor=white) ![Ollama](https://img.shields.io/badge/Ollama-Mistral-black?logo=ollama&logoColor=white)![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
 
 ![Main Dashboard](examples/Dashboard_Example.png)
 *Figure 1: Real-time Bioreactor Control Surface with industrial dark-mode UI.*
@@ -234,3 +234,6 @@ OLLAMA_MODEL=mistral
 | Containers | Docker Compose | Reproducible deployment |
 
 ---
+
+## License
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
