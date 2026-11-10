@@ -38,6 +38,7 @@ def test_valid_reading_is_accepted_and_rounded():
         ("agitation_rpm", 1501),
     ],
 )
+
 def test_out_of_hard_range_is_rejected(field, value):
     with pytest.raises(ValidationError):
         make_reading(**{field: value})

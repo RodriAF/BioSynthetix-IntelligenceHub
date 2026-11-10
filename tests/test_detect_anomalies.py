@@ -70,3 +70,4 @@ def test_load_and_update_roundtrip(sqlite_engine, readings):
         stored = conn.execute(text("SELECT id FROM bioreactor_readings WHERE is_anomaly = 1")).scalars().all()
     assert set(stored) == set(result.loc[result["is_anomaly"], "id"])
     assert len(stored) > 0
+

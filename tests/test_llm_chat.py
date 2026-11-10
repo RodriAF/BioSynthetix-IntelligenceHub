@@ -42,6 +42,7 @@ def test_extract_sql(engine, raw, expected):
         "INSERT INTO bioreactor_readings (timestamp) VALUES (NOW())",
     ],
 )
+
 def test_execute_sql_blocks_writes(engine, sql):
     with pytest.raises(ValueError, match="Security"):
         engine._execute_sql(sql)

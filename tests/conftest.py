@@ -3,6 +3,7 @@ import pytest
 from sqlalchemy import create_engine, text
 from sqlalchemy.pool import StaticPool
 
+
 # Subconjunto portable del esquema de DB/init_db.sql
 SQLITE_SCHEMA = """
 CREATE TABLE bioreactor_readings (
