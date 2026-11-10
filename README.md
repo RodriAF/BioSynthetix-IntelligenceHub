@@ -234,6 +234,16 @@ OLLAMA_MODEL=mistral
 | Containers | Docker Compose | Reproducible deployment |
 
 ---
+## Running the Tests
 
+The test suite needs no Docker, PostgreSQL or Ollama: it uses an in-memory SQLite database and a fake LLM, and runs in a few seconds.
+
+```bash
+pip install -r requirements-dev.txt
+pytest
+```
+
+It covers Pydantic validation and the synthetic data generator, Isolation Forest anomaly detection, and the Text-to-SQL chat engine (including its read-only guardrail).
+---
 ## License
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
